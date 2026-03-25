@@ -1,5 +1,6 @@
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
+import { Link, NavLink, Outlet } from 'react-router-dom'
 import { Text, Spacer } from '../components'
+import registry from '../flows/registry'
 
 const navLinkStyle = ({ isActive }) => ({
   padding: '8px 12px',
@@ -9,11 +10,19 @@ const navLinkStyle = ({ isActive }) => ({
   background: isActive ? 'var(--bg)' : 'transparent',
   fontWeight: isActive ? 500 : 400,
   textDecoration: 'none',
+  display: 'block',
 })
 
-export default function SaasLayout({ nav = [] }) {
-  const location = useLocation()
+const sectionLabel = {
+  fontSize: 11,
+  fontWeight: 600,
+  textTransform: 'uppercase',
+  letterSpacing: '0.5px',
+  color: 'var(--fg-3)',
+  padding: '16px 12px 6px',
+}
 
+export default function SaasLayout() {
   return (
     <div style={{ display: 'flex', height: '100%' }}>
       {/* Sidebar */}
@@ -26,23 +35,25 @@ export default function SaasLayout({ nav = [] }) {
         padding: 'var(--md)',
         flexShrink: 0,
       }}>
-        <Link to="/" style={{ fontWeight: 600, fontSize: 15, padding: '4px 12px', marginBottom: 'var(--lg)', textDecoration: 'none', color: 'var(--fg)' }}>
-          Acme
+        <Link to="/" style={{ fontWeight: 600, fontSize: 15, padding: '4px 12px', marginBottom: 'var(--sm)', textDecoration: 'none', color: 'var(--fg)' }}>
+          Wireframes
         </Link>
 
+        <div style={sectionLabel}>Vignettes</div>
+
         <nav style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          {nav.map(item => (
-            <NavLink key={item.to} to={item.to} style={navLinkStyle} end={item.end}>
-              {item.label}
+          {registry.map(flow => (
+            <NavLink key={flow.id} to={`/flows/${flow.id}`} style={navLinkStyle}>
+              {flow.title}
             </NavLink>
           ))}
         </nav>
 
         <Spacer />
 
-        <div style={{ padding: '8px 12px', borderTop: '1px solid var(--border)', marginTop: 'var(--md)' }}>
-          <Text muted size={12}>user@acme.com</Text>
-        </div>
+        <NavLink to="/" end style={navLinkStyle}>
+          <Text muted size={12}>All vignettes</Text>
+        </NavLink>
       </aside>
 
       {/* Main */}
