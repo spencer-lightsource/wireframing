@@ -1,0 +1,72 @@
+/* === Wireframe Base === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --fg: #1a1a1a;
+  --fg-2: #555;
+  --fg-3: #999;
+  --bg: #fafafa;
+  --surface: #fff;
+  --border: #e0e0e0;
+  --border-focus: #999;
+  --accent: #1a1a1a;
+  --accent-fg: #fff;
+  --danger: #c00;
+  --radius: 6px;
+  --xs: 4px; --sm: 8px; --md: 16px; --lg: 24px; --xl: 40px;
+  --font: 'Inter', -apple-system, system-ui, sans-serif;
+  --mono: 'SF Mono', 'Fira Code', ui-monospace, monospace;
+  --sidebar-w: 240px;
+  --header-h: 48px;
+}
+
+html, body, #root { height: 100%; }
+
+body {
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--fg); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* === Flow step indicator === */
+.flow-steps {
+  display: flex;
+  gap: var(--sm);
+  align-items: center;
+  padding: var(--md) 0;
+}
+.flow-steps .step {
+  display: flex;
+  align-items: center;
+  gap: var(--sm);
+  font-size: 13px;
+  color: var(--fg-3);
+}
+.flow-steps .step.active { color: var(--fg); font-weight: 600; }
+.flow-steps .step.done { color: var(--fg-2); }
+.flow-steps .step-num {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600;
+}
+.flow-steps .step.active .step-num {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+}
+.flow-steps .step.done .step-num {
+  background: var(--border);
+  border-color: var(--border);
+}
+.flow-steps .step-divider {
+  width: 24px; height: 1px;
+  background: var(--border);
+}
