@@ -1,5 +1,5 @@
 /**
- * Wireframe primitives — ultra minimal, no frills.
+ * Wireframe primitives — modern minimal.
  * Import what you need: import { Button, Input, Card } from '../components'
  */
 
@@ -15,9 +15,9 @@ export function Stack({ gap = 'md', children, style, ...props }) {
   )
 }
 
-export function Row({ gap = 'md', align = 'center', justify, children, style, ...props }) {
+export function Row({ gap = 'md', align = 'center', justify, wrap, children, style, ...props }) {
   return (
-    <div style={{ display: 'flex', gap: `var(--${gap})`, alignItems: align, justifyContent: justify, ...style }} {...props}>
+    <div style={{ display: 'flex', gap: `var(--${gap})`, alignItems: align, justifyContent: justify, flexWrap: wrap ? 'wrap' : undefined, ...style }} {...props}>
       {children}
     </div>
   )
@@ -29,16 +29,16 @@ export function Spacer() {
 
 // ── Typography ──────────────────────────────────────
 
-export function H1({ children, ...props }) {
-  return <h1 style={{ fontSize: 24, fontWeight: 600, letterSpacing: '-0.5px' }} {...props}>{children}</h1>
+export function H1({ children, style, ...props }) {
+  return <h1 style={{ fontSize: 22, fontWeight: 600, letterSpacing: '-0.3px', ...style }} {...props}>{children}</h1>
 }
 
-export function H2({ children, ...props }) {
-  return <h2 style={{ fontSize: 18, fontWeight: 600 }} {...props}>{children}</h2>
+export function H2({ children, style, ...props }) {
+  return <h2 style={{ fontSize: 16, fontWeight: 600, letterSpacing: '-0.2px', ...style }} {...props}>{children}</h2>
 }
 
-export function H3({ children, ...props }) {
-  return <h3 style={{ fontSize: 14, fontWeight: 600 }} {...props}>{children}</h3>
+export function H3({ children, style, ...props }) {
+  return <h3 style={{ fontSize: 13, fontWeight: 600, ...style }} {...props}>{children}</h3>
 }
 
 export function Text({ muted, mono, size, children, style, ...props }) {
@@ -46,7 +46,7 @@ export function Text({ muted, mono, size, children, style, ...props }) {
     <span style={{
       color: muted ? 'var(--fg-3)' : undefined,
       fontFamily: mono ? 'var(--mono)' : undefined,
-      fontSize: size || (mono ? 12 : 14),
+      fontSize: size || (mono ? 11 : 13),
       ...style,
     }} {...props}>{children}</span>
   )
@@ -55,11 +55,11 @@ export function Text({ muted, mono, size, children, style, ...props }) {
 // ── Inputs ──────────────────────────────────────────
 
 const inputBase = {
-  height: 36,
-  padding: '0 12px',
+  height: 34,
+  padding: '0 10px',
   border: '1px solid var(--border)',
   borderRadius: 'var(--radius)',
-  fontSize: 14,
+  fontSize: 13,
   fontFamily: 'inherit',
   background: 'var(--surface)',
   outline: 'none',
@@ -68,8 +68,8 @@ const inputBase = {
 
 export function Input({ label, ...props }) {
   return (
-    <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-      {label && <Text muted size={13}>{label}</Text>}
+    <label style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+      {label && <Text muted size={12}>{label}</Text>}
       <input style={inputBase} {...props} />
     </label>
   )
@@ -77,17 +77,17 @@ export function Input({ label, ...props }) {
 
 export function Textarea({ label, rows = 3, ...props }) {
   return (
-    <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-      {label && <Text muted size={13}>{label}</Text>}
-      <textarea style={{ ...inputBase, height: 'auto', padding: 12 }} rows={rows} {...props} />
+    <label style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+      {label && <Text muted size={12}>{label}</Text>}
+      <textarea style={{ ...inputBase, height: 'auto', padding: 10 }} rows={rows} {...props} />
     </label>
   )
 }
 
 export function Select({ label, options = [], ...props }) {
   return (
-    <label style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-      {label && <Text muted size={13}>{label}</Text>}
+    <label style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+      {label && <Text muted size={12}>{label}</Text>}
       <select style={{ ...inputBase, cursor: 'pointer' }} {...props}>
         {options.map(o => typeof o === 'string'
           ? <option key={o} value={o}>{o}</option>
@@ -100,17 +100,8 @@ export function Select({ label, options = [], ...props }) {
 
 export function Checkbox({ label, ...props }) {
   return (
-    <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontSize: 14 }}>
+    <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontSize: 13 }}>
       <input type="checkbox" {...props} />
-      {label}
-    </label>
-  )
-}
-
-export function Toggle({ label, ...props }) {
-  return (
-    <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', fontSize: 14 }}>
-      <input type="checkbox" role="switch" {...props} />
       {label}
     </label>
   )
@@ -119,10 +110,10 @@ export function Toggle({ label, ...props }) {
 // ── Buttons ─────────────────────────────────────────
 
 const btnBase = {
-  height: 36,
-  padding: '0 16px',
+  height: 34,
+  padding: '0 14px',
   borderRadius: 'var(--radius)',
-  fontSize: 14,
+  fontSize: 13,
   fontFamily: 'inherit',
   fontWeight: 500,
   cursor: 'pointer',
@@ -131,15 +122,16 @@ const btnBase = {
   justifyContent: 'center',
   gap: 6,
   border: 'none',
-  transition: 'opacity 0.1s',
+  transition: 'opacity 0.15s',
+  whiteSpace: 'nowrap',
 }
 
 export function Button({ variant = 'primary', children, style, ...props }) {
   const variants = {
     primary: { background: 'var(--accent)', color: 'var(--accent-fg)' },
     secondary: { background: 'transparent', color: 'var(--fg)', border: '1px solid var(--border)' },
-    ghost: { background: 'transparent', color: 'var(--fg-2)' },
-    danger: { background: 'var(--danger)', color: '#fff' },
+    ghost: { background: 'transparent', color: 'var(--fg-2)', padding: '0 8px' },
+    danger: { background: 'var(--red)', color: '#fff' },
   }
   return <button style={{ ...btnBase, ...variants[variant], ...style }} {...props}>{children}</button>
 }
@@ -162,15 +154,15 @@ export function Card({ children, style, ...props }) {
   )
 }
 
-export function Divider() {
-  return <hr style={{ border: 'none', borderTop: '1px solid var(--border)', margin: 'var(--md) 0' }} />
+export function Divider({ style }) {
+  return <hr style={{ border: 'none', borderTop: '1px solid var(--border)', ...style }} />
 }
 
 export function Badge({ children, style }) {
   return (
     <span style={{
       fontSize: 11,
-      fontWeight: 600,
+      fontWeight: 500,
       padding: '2px 8px',
       borderRadius: 99,
       border: '1px solid var(--border)',
@@ -182,12 +174,12 @@ export function Badge({ children, style }) {
 
 // ── Data ────────────────────────────────────────────
 
-export function Table({ columns, rows, onRowClick }) {
+export function Table({ columns, rows, onRowClick, footer }) {
   const cellStyle = {
-    padding: '10px 12px',
+    padding: '9px 12px',
     borderBottom: '1px solid var(--border)',
     textAlign: 'left',
-    fontSize: 13,
+    fontSize: 12,
   }
   return (
     <div style={{ border: '1px solid var(--border)', borderRadius: 'var(--radius)', overflow: 'hidden', background: 'var(--surface)' }}>
@@ -195,7 +187,7 @@ export function Table({ columns, rows, onRowClick }) {
         <thead>
           <tr>
             {columns.map(col => (
-              <th key={col.key || col} style={{ ...cellStyle, fontWeight: 600, fontSize: 12, color: 'var(--fg-3)', background: 'var(--bg)' }}>
+              <th key={col.key || col} style={{ ...cellStyle, fontWeight: 500, fontSize: 11, color: 'var(--fg-3)', textTransform: 'uppercase', letterSpacing: '0.3px' }}>
                 {col.label || col}
               </th>
             ))}
@@ -211,6 +203,16 @@ export function Table({ columns, rows, onRowClick }) {
             </tr>
           ))}
         </tbody>
+        {footer && (
+          <tfoot>
+            <tr>
+              {columns.map((col, i) => {
+                const key = col.key || col
+                return <td key={key} style={{ ...cellStyle, fontWeight: 600, fontSize: 11, borderBottom: 'none', color: 'var(--fg-2)' }}>{footer[key] ?? ''}</td>
+              })}
+            </tr>
+          </tfoot>
+        )}
       </table>
     </div>
   )
@@ -218,9 +220,9 @@ export function Table({ columns, rows, onRowClick }) {
 
 export function KV({ label, value }) {
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid var(--border)' }}>
-      <Text muted>{label}</Text>
-      <Text>{value}</Text>
+    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '7px 0', borderBottom: '1px solid var(--border)' }}>
+      <Text muted size={12}>{label}</Text>
+      <Text size={12}>{value}</Text>
     </div>
   )
 }
@@ -231,23 +233,28 @@ export function EmptyState({ title, description, action }) {
   return (
     <div style={{ textAlign: 'center', padding: 'var(--xl) var(--lg)', color: 'var(--fg-3)' }}>
       <Text style={{ display: 'block', marginBottom: 4 }}>{title}</Text>
-      {description && <Text muted size={13} style={{ display: 'block', marginBottom: 16 }}>{description}</Text>}
+      {description && <Text muted size={12} style={{ display: 'block', marginBottom: 16 }}>{description}</Text>}
       {action}
     </div>
   )
 }
 
-export function Tag({ children, style }) {
+export function Tag({ children, onRemove, style }) {
   return (
     <span style={{
-      display: 'inline-block',
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 4,
       fontSize: 12,
-      padding: '2px 8px',
-      background: 'var(--bg)',
+      padding: '3px 10px',
+      background: 'var(--surface)',
       border: '1px solid var(--border)',
-      borderRadius: 4,
+      borderRadius: 6,
       ...style,
-    }}>{children}</span>
+    }}>
+      {children}
+      {onRemove && <span onClick={onRemove} style={{ cursor: 'pointer', opacity: 0.5, marginLeft: 2 }}>x</span>}
+    </span>
   )
 }
 
@@ -257,7 +264,7 @@ export function Modal({ open, onClose, title, children, footer }) {
   if (!open) return null
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div onClick={onClose} style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.3)' }} />
+      <div onClick={onClose} style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)' }} />
       <div style={{
         position: 'relative',
         background: 'var(--surface)',
@@ -291,13 +298,13 @@ export function Tabs({ tabs, active, onChange }) {
             key={key}
             onClick={() => onChange(key)}
             style={{
-              padding: '10px 16px',
-              fontSize: 13,
+              padding: '8px 14px',
+              fontSize: 12,
               fontWeight: isActive ? 600 : 400,
               color: isActive ? 'var(--fg)' : 'var(--fg-3)',
               background: 'none',
               border: 'none',
-              borderBottom: isActive ? '2px solid var(--accent)' : '2px solid transparent',
+              borderBottom: isActive ? '1.5px solid var(--accent)' : '1.5px solid transparent',
               cursor: 'pointer',
               fontFamily: 'inherit',
             }}
@@ -305,6 +312,80 @@ export function Tabs({ tabs, active, onChange }) {
         )
       })}
     </div>
+  )
+}
+
+// ── Pill toggle (Overview / Allocation style) ───────
+
+export function PillToggle({ options, active, onChange }) {
+  return (
+    <div style={{ display: 'inline-flex', border: '1px solid var(--border)', borderRadius: 'var(--radius)', overflow: 'hidden' }}>
+      {options.map(opt => {
+        const key = typeof opt === 'string' ? opt : opt.key
+        const label = typeof opt === 'string' ? opt : opt.label
+        const isActive = active === key
+        return (
+          <button
+            key={key}
+            onClick={() => onChange(key)}
+            style={{
+              padding: '5px 14px',
+              fontSize: 12,
+              fontWeight: isActive ? 600 : 400,
+              color: isActive ? 'var(--fg)' : 'var(--fg-3)',
+              background: isActive ? 'var(--surface)' : 'transparent',
+              border: 'none',
+              borderRight: '1px solid var(--border)',
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+            }}
+          >{label}</button>
+        )
+      })}
+    </div>
+  )
+}
+
+// ── Metric pill (Total spend $37.7M style) ──────────
+
+export function MetricPill({ label, value, color }) {
+  return (
+    <span style={{
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 6,
+      padding: '5px 14px',
+      border: '1px solid var(--border)',
+      borderRadius: 'var(--radius)',
+      fontSize: 12,
+    }}>
+      <span style={{ color: 'var(--fg-3)' }}>{label}</span>
+      <span style={{ fontWeight: 600, color: color || 'var(--fg)' }}>{value}</span>
+    </span>
+  )
+}
+
+// ── Allocation bar ──────────────────────────────────
+
+export function AllocationBar({ percent, style }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 6, ...style }}>
+      <span style={{ fontSize: 12, minWidth: 32 }}>{percent}%</span>
+      <div style={{ flex: 1, height: 4, background: '#eee', borderRadius: 2, minWidth: 60 }}>
+        <div style={{ width: `${Math.min(percent * 10, 100)}%`, height: '100%', background: '#ccc', borderRadius: 2 }} />
+      </div>
+    </div>
+  )
+}
+
+// ── Price delta ─────────────────────────────────────
+
+export function PriceDelta({ value, direction = 'up' }) {
+  const isUp = direction === 'up'
+  return (
+    <span style={{ fontSize: 11, fontWeight: 500, color: isUp ? 'var(--orange)' : 'var(--green)' }}>
+      {isUp ? '↑' : '↓'}{value}
+    </span>
   )
 }
 

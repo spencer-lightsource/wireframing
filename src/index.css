@@ -1,31 +1,32 @@
-/* === Wireframe Base === */
+/* === Wireframe Base — Modern Minimal === */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --fg: #1a1a1a;
-  --fg-2: #555;
+  --fg: #111;
+  --fg-2: #666;
   --fg-3: #999;
-  --bg: #fafafa;
+  --bg: #f8f8f8;
   --surface: #fff;
-  --border: #e0e0e0;
-  --border-focus: #999;
-  --accent: #1a1a1a;
+  --border: #eee;
+  --border-focus: #bbb;
+  --accent: #111;
   --accent-fg: #fff;
-  --danger: #c00;
-  --radius: 6px;
+  --orange: #e8600a;
+  --green: #1a8a4a;
+  --red: #d63a3a;
+  --radius: 8px;
   --xs: 4px; --sm: 8px; --md: 16px; --lg: 24px; --xl: 40px;
   --font: 'Inter', -apple-system, system-ui, sans-serif;
   --mono: 'SF Mono', 'Fira Code', ui-monospace, monospace;
-  --sidebar-w: 240px;
-  --header-h: 48px;
+  --sidebar-w: 220px;
 }
 
 html, body, #root { height: 100%; }
 
 body {
   font-family: var(--font);
-  font-size: 14px;
-  line-height: 1.5;
+  font-size: 13px;
+  line-height: 1.55;
   color: var(--fg);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
@@ -34,7 +35,13 @@ body {
 a { color: var(--fg); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-/* === Flow step indicator === */
+/* thin scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #bbb; }
+
+/* Flow step indicator */
 .flow-steps {
   display: flex;
   gap: var(--sm);
@@ -42,31 +49,21 @@ a:hover { text-decoration: underline; }
   padding: var(--md) 0;
 }
 .flow-steps .step {
-  display: flex;
-  align-items: center;
-  gap: var(--sm);
-  font-size: 13px;
-  color: var(--fg-3);
+  display: flex; align-items: center; gap: var(--sm);
+  font-size: 12px; color: var(--fg-3);
 }
 .flow-steps .step.active { color: var(--fg); font-weight: 600; }
 .flow-steps .step.done { color: var(--fg-2); }
 .flow-steps .step-num {
-  width: 24px; height: 24px;
-  border-radius: 50%;
+  width: 22px; height: 22px; border-radius: 50%;
   border: 1.5px solid var(--border);
   display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 600;
+  font-size: 11px; font-weight: 600;
 }
 .flow-steps .step.active .step-num {
-  background: var(--accent);
-  color: var(--accent-fg);
-  border-color: var(--accent);
+  background: var(--accent); color: var(--accent-fg); border-color: var(--accent);
 }
-.flow-steps .step.done .step-num {
-  background: var(--border);
-  border-color: var(--border);
-}
+.flow-steps .step.done .step-num { background: var(--border); border-color: var(--border); }
 .flow-steps .step-divider {
-  width: 24px; height: 1px;
-  background: var(--border);
+  width: 20px; height: 1px; background: var(--border);
 }

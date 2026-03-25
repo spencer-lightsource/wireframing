@@ -1,9 +1,9 @@
-import { Link, NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { Text, Spacer } from '../components'
 import registry from '../flows/registry'
 
 const navLinkStyle = ({ isActive }) => ({
-  padding: '8px 12px',
+  padding: '7px 12px',
   fontSize: 13,
   borderRadius: 'var(--radius)',
   color: isActive ? 'var(--fg)' : 'var(--fg-3)',
@@ -14,7 +14,7 @@ const navLinkStyle = ({ isActive }) => ({
 })
 
 const sectionLabel = {
-  fontSize: 11,
+  fontSize: 10,
   fontWeight: 600,
   textTransform: 'uppercase',
   letterSpacing: '0.5px',
@@ -23,6 +23,10 @@ const sectionLabel = {
 }
 
 export default function SaasLayout() {
+  const location = useLocation()
+  const currentFlow = registry.find(f => location.pathname.includes(f.id))
+  const isWide = currentFlow?.wide
+
   return (
     <div style={{ display: 'flex', height: '100%' }}>
       {/* Sidebar */}
@@ -35,13 +39,13 @@ export default function SaasLayout() {
         padding: 'var(--md)',
         flexShrink: 0,
       }}>
-        <Link to="/" style={{ fontWeight: 600, fontSize: 15, padding: '4px 12px', marginBottom: 'var(--sm)', textDecoration: 'none', color: 'var(--fg)' }}>
+        <Link to="/" style={{ fontWeight: 600, fontSize: 14, padding: '4px 12px', marginBottom: 'var(--sm)', textDecoration: 'none', color: 'var(--fg)' }}>
           Wireframes
         </Link>
 
         <div style={sectionLabel}>Vignettes</div>
 
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           {registry.map(flow => (
             <NavLink key={flow.id} to={`/flows/${flow.id}`} style={navLinkStyle}>
               {flow.title}
@@ -52,13 +56,13 @@ export default function SaasLayout() {
         <Spacer />
 
         <NavLink to="/" end style={navLinkStyle}>
-          <Text muted size={12}>All vignettes</Text>
+          <Text muted size={11}>All vignettes</Text>
         </NavLink>
       </aside>
 
       {/* Main */}
       <main style={{ flex: 1, overflow: 'auto' }}>
-        <div style={{ maxWidth: 960, margin: '0 auto', padding: 'var(--xl) var(--lg)' }}>
+        <div style={{ maxWidth: isWide ? '100%' : 960, margin: '0 auto', padding: isWide ? 0 : 'var(--xl) var(--lg)' }}>
           <Outlet />
         </div>
       </main>
